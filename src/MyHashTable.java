@@ -14,7 +14,6 @@ public class MyHashTable<K, V> {
     }
 
     public int hashToIndex(K key) {
-
         return (key.hashCode() & 0xfffffff) % M;
     }
 
@@ -27,17 +26,27 @@ public class MyHashTable<K, V> {
             this.key = key;
             this.value = value;
         }
+
+        @Override
+        public String toString() {
+            return "HashNode{" +
+                    "key=" + key +
+                    ", value=" + value +
+                    '}';
+        }
     }
-    public int countElements(int index){
+
+    public int countElements(int index) {
         int count = 0;
         HashNode<K, V> temp = buckets[index];
-        while(temp != null){
+        while (temp != null) {
             count++;
             temp = temp.next;
         }
         return count;
     }
-    public int getM(){
+
+    public int getM() {
         return M;
     }
 
@@ -54,15 +63,19 @@ public class MyHashTable<K, V> {
         return null;
     }
 
-    public boolean contains(K key){
-        return get(key)!=null;
+    public boolean containsK(K key) {
+        return get(key) != null;
     }
 
-    public K getkey(V value){
-        for(int i=0; i<M; i++){
-            HashNode <?,?> temp = buckets[i];
-            while (temp.next!=null){
-                if(temp.value.equals(value)){
+    public boolean containsV(V value) {
+        return getkey(value) != null;
+    }
+
+    public K getkey(V value) {
+        for (int i = 0; i < M; i++) {
+            HashNode<?, ?> temp = buckets[i];
+            while (temp.next != null) {
+                if (temp.value.equals(value)) {
                     return (K) temp.key;
                 }
                 temp = temp.next;
@@ -73,32 +86,34 @@ public class MyHashTable<K, V> {
     }
 
 
-    public void put(K key, V value){
-        if((double) size / M > loadFactor) increaseCapacity();
+    public void put(K key, V value) {
+        if ((double) size / M > loadFactor) increaseCapacity();
         int index = hashToIndex(key);
-        HashNode<K ,V> a = new HashNode<>(key , value);
+        HashNode<K, V> a = new HashNode<>(key, value);
 
         a.next = buckets[index];
         buckets[index] = a;
         size++;
 
     }
-    public void reput(K key, V value){
+
+    public void reput(K key, V value) {
         int index = hashToIndex(key);
-        HashNode<K ,V> a = new HashNode<>(key , value);
+        HashNode<K, V> a = new HashNode<>(key, value);
 
         a.next = buckets[index];
         buckets[index] = a;
 
     }
-    private void increaseCapacity(){
-        M = M*2;
-        HashNode<K,V> []temp = buckets;
+
+    private void increaseCapacity() {
+        M = M * 2;
+        HashNode<K, V>[] temp = buckets;
         buckets = new HashNode[M];
-        for(int i=0;i<temp.length;i++){
-            if(temp[i]!=null){
-                HashNode<K,V> node = temp[i];
-                while (node!=null){
+        for (int i = 0; i < temp.length; i++) {
+            if (temp[i] != null) {
+                HashNode<K, V> node = temp[i];
+                while (node != null) {
                     reput(node.key, node.value);
                     node = node.next;
                 }
@@ -107,16 +122,16 @@ public class MyHashTable<K, V> {
         }
 
     }
-    public V remove(K key){
+
+    public V remove(K key) {
         int index = hashToIndex(key);
-        HashNode<K,V> temp = buckets[index];
-        HashNode<K,V> prev = null;
-        while (temp.next!=null){
-            if(temp.key.equals(key)){
-                if(prev==null){
+        HashNode<K, V> temp = buckets[index];
+        HashNode<K, V> prev = null;
+        while (temp.next != null) {
+            if (temp.key.equals(key)) {
+                if (prev == null) {
                     buckets[index] = temp.next;
-                }
-                else {
+                } else {
                     prev.next = temp.next;
                 }
                 size--;

@@ -1,3 +1,5 @@
+import jdk.incubator.vector.VectorOperators;
+
 import java.util.Random;
 
 public class Main {
@@ -24,5 +26,6 @@ public class Main {
         }
         return result.toString();
     }
+
 
 }

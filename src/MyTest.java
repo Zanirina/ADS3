@@ -2,9 +2,9 @@ public class MyTest {
     String s;
     String s2;
 
-    public MyTest(String s , String a) {
+    public MyTest(String s , String s2) {
         this.s = s;
-        s2 = a;
+        this.s2 = s2;
     }
 
     @Override
