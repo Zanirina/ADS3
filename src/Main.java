@@ -1,5 +1,4 @@
-import jdk.incubator.vector.VectorOperators;
-
+import java.util.Hashtable;
 import java.util.Random;
 
 public class Main {
@@ -17,6 +16,9 @@ public class Main {
         }
 
         System.out.println(table.getM());
+
+
+
     }
     public static String generateRandomString(int length) {
         String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
