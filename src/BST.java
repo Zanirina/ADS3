@@ -1,7 +1,6 @@
-import javax.print.DocFlavor;
 import java.util.Iterator;
 
-public class BST<K extends Comparable<K>, V> {
+public class BST<K extends Comparable<K>, V> implements Iterable<K>{
     private Node root;
 
     private static class Node<K, V> {
@@ -148,6 +147,67 @@ public class BST<K extends Comparable<K>, V> {
         }
         return a;
     }
+
+    public Node getNode(K key) {
+        return getNode(root , key);
+    }
+    public Node getNode(Node node , K key) {
+        if(node == null) return null;
+
+        while(node != null) {
+
+            if(key.compareTo((K) node.key) < 0) node = node.left;
+
+            else if(key.compareTo((K) node.key) > 0) node = node.right;
+
+            else return node;
+
+        }
+
+        return null;
+    }
+    public int size(Node node) {
+        return node == null ? 0 : node.length;
+    }
+
+    public boolean isEmpty() {
+        return size(root) == 1;
+    }
+
+    public Node getRoot() {
+        return root;
+    }
+    public boolean contains(K key) {
+        return get(key) != null;
+    }
+
+    public Iterator<K> iterator(){
+        return new BSTIterator();
+    }
+
+    private class BSTIterator implements Iterator<K> {
+        private MyQueue<K> queue = new MyQueue<>();
+        public BSTIterator() {
+            inOrder(root);
+        }
+
+        private void inOrder(Node node) {
+            if(node == null) return;
+            inOrder(node.left);
+            queue.enqueue((K) node.key);
+            inOrder(node.right);
+        }
+        @Override
+        public boolean hasNext() {
+            return !queue.isEmpty();
+        }
+        @Override
+        public K next() {
+            return queue.dequeue();
+        }
+
+    }
+
 
 
 }
